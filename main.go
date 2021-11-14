@@ -35,14 +35,16 @@ func main() {
 
 	update := func() {
 		otcs, _ := fetch()
-		rows := [][]string{{"assetId", "sellPriceUsdt"}}
-		for _, otc := range otcs {
-			if funk.ContainsString(assetIds, cast.ToString(otc.AssetId)) {
-				rows = append(rows, []string{cast.ToString(otc.AssetId), otc.SellPriceUsdt})
+		if otcs != nil {
+			rows := [][]string{{"assetId", "sellPriceUsdt"}}
+			for _, otc := range otcs {
+				if funk.ContainsString(assetIds, cast.ToString(otc.AssetId)) {
+					rows = append(rows, []string{cast.ToString(otc.AssetId), otc.SellPriceUsdt})
+				}
 			}
+			table.Rows = rows
+			ui.Render(table)
 		}
-		table.Rows = rows
-		ui.Render(table)
 	}
 
 	update()
